@@ -1,32 +1,65 @@
-# Room OS
+<p align="center">
+  <img src="assets/social-preview.png" alt="Room OS — Gesture, Vision, Presence" width="100%">
+</p>
 
-Room OS es una aplicación modular para Windows que reúne cámara en tiempo real,
-seguimiento y reconocimiento de gestos, mouse virtual, presencia, reconocimiento
-facial local, acciones del sistema e inteligencia visual opcional con Gemini.
+<p align="center">
+  <a href="https://github.com/diegomoren-lgtm/room-os/actions/workflows/tests.yml"><img src="https://github.com/diegomoren-lgtm/room-os/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
+  <a href="https://github.com/diegomoren-lgtm/room-os/releases/latest"><img src="https://img.shields.io/github/v/release/diegomoren-lgtm/room-os?display_name=tag" alt="Latest release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/diegomoren-lgtm/room-os" alt="MIT license"></a>
+  <img src="https://img.shields.io/badge/platform-Windows-246BCE" alt="Windows">
+  <img src="https://img.shields.io/badge/Python-3.11-3776AB" alt="Python 3.11">
+</p>
 
-> Proyecto en desarrollo. Las funciones que controlan Windows deben probarse con
-> precaución y pueden desactivarse desde la configuración de la aplicación.
+<p align="center">
+  A modular Windows workspace controlled through gestures, vision and presence.
+  <br>
+  <a href="README.es.md">Leer en español</a> ·
+  <a href="https://github.com/diegomoren-lgtm/room-os/releases/latest">Download</a> ·
+  <a href="ROADMAP.md">Roadmap</a> ·
+  <a href="CONTRIBUTING.md">Contribute</a>
+</p>
 
-## Características
+## What is Room OS?
 
-- Interfaz de escritorio con PySide6 y asistente de configuración inicial.
-- Captura de cámara desacoplada mediante un `EventBus`.
-- Seguimiento de hasta dos manos con MediaPipe.
-- Gestos configurables y perfiles de calibración por mano.
-- Mouse virtual con calibración guiada y filtros de movimiento.
-- Detección de presencia y reconocimiento facial ejecutados localmente.
-- Registro central de acciones para sistema, multimedia y aplicaciones.
-- Análisis visual bajo demanda mediante Gemini, sin bloquear la cámara.
-- Rate limiting, validación de entradas y escape de texto enriquecido.
+Room OS is an experimental desktop application that turns a regular webcam into
+a visual control layer for Windows. Its modules communicate through an event bus,
+so camera capture, hand tracking, gesture recognition, presence, actions and
+optional visual AI remain independent and replaceable.
 
-## Requisitos
+The project focuses on transparent local processing, explicit calibration and a
+desktop interface that lets the user understand what the system is detecting.
 
-- Windows 10 u 11.
-- Python 3.11 recomendado.
-- Webcam compatible con OpenCV.
-- Una clave de Gemini solo si se utilizará la IA visual.
+## Highlights
 
-## Instalación para desarrollo
+- Real-time camera capture with automatic device detection.
+- One- or two-hand tracking through MediaPipe and OpenCV.
+- Calibrated gestures including palm, peace, point, pinch and thumb poses.
+- Virtual mouse with guided calibration, smoothing and safety controls.
+- Local presence and face recognition with no cloud dependency.
+- Extensible action registry for Windows, media and allowlisted applications.
+- Optional Gemini image analysis, invoked only when requested.
+- First-run setup wizard and persistent per-device settings.
+- Input validation, rate limiting and escaped rich text at trust boundaries.
+
+## Interface
+
+| Dashboard | Guided setup |
+| --- | --- |
+| ![Room OS dashboard](assets/screenshots/dashboard.png) | ![Room OS setup wizard](assets/screenshots/setup-wizard.png) |
+
+## Download for Windows
+
+1. Open the [latest release](https://github.com/diegomoren-lgtm/room-os/releases/latest).
+2. Download `Room-OS-v0.1.0-windows-x64.zip`.
+3. Extract the complete folder and run `Room OS.exe`.
+
+The current builds are not code-signed. Windows may identify them as coming from
+an unknown publisher. If you prefer, build the application locally from the
+auditable source using the instructions below.
+
+## Development setup
+
+Requirements: Windows 10 or 11, Python 3.11 and a webcam.
 
 ```powershell
 git clone https://github.com/diegomoren-lgtm/room-os.git
@@ -35,81 +68,85 @@ py -3.11 -m venv .venv
 .\.venv\Scripts\Activate.ps1
 python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
-```
-
-Ejecuta la aplicación:
-
-```powershell
 python main.py
 ```
 
-También puedes iniciar con `Room OS.cmd`, que comprueba el entorno y registra el
-arranque de forma controlada.
-
-## Gemini opcional
-
-Room OS nunca guarda la clave en el código. Configúrala como variable de entorno
-de usuario y reinicia la aplicación:
-
-```powershell
-[Environment]::SetEnvironmentVariable(
-    "GEMINI_API_KEY",
-    (Read-Host "Clave de Gemini"),
-    "User"
-)
-```
-
-Las imágenes analizadas con Gemini salen de la computadora y son procesadas por
-Google. Consulta [la documentación de IA visual](docs/VISUAL_AI_GEMINI.md) y
-[la política de seguridad](docs/SECURITY.md).
-
-## Pruebas
+Run the test suite without a webcam or a live API request:
 
 ```powershell
 python -m unittest discover -s tests -v
 ```
 
-Las pruebas no necesitan una webcam ni realizan solicitudes reales a Gemini.
-
-## Compilar e instalar en Windows
+Build the distributable Windows folder:
 
 ```powershell
 python -m pip install -r requirements-dev.txt
 powershell -ExecutionPolicy Bypass -File scripts\build_windows.ps1
-powershell -ExecutionPolicy Bypass -File scripts\install_windows.ps1
 ```
 
-El ejecutable se instala en `%LOCALAPPDATA%\Programs\Room OS`. Los perfiles,
-calibraciones y logs permanecen en `%LOCALAPPDATA%\Room OS\data`.
+## Optional Gemini vision
 
-## Arquitectura
+Gemini is disabled gracefully when no credential is available. Room OS reads the
+credential only from the `GEMINI_API_KEY` environment variable; it is never stored
+in source, settings or logs.
+
+```powershell
+[Environment]::SetEnvironmentVariable(
+    "GEMINI_API_KEY",
+    (Read-Host "Gemini API key"),
+    "User"
+)
+```
+
+An image leaves the computer only after the user explicitly requests a Gemini
+analysis. See [Gemini vision and privacy](docs/VISUAL_AI_GEMINI.md).
+
+## Architecture
 
 ```text
 room_os/
-├── core/       # EventBus, acciones, configuración persistente y seguridad
-├── modules/    # Cámara, manos, gestos, mouse, presencia e IA visual
-├── platforms/  # Integraciones específicas de Windows
-├── services/   # Gemini, embeddings y almacenamiento facial
-├── ui/         # Ventanas, páginas, tema y asistente inicial
-├── scripts/    # Inicio, diagnóstico, compilación e instalación
-├── tests/      # Pruebas unitarias y de integración local
-└── docs/       # Seguridad y documentación de módulos
+├── core/       Event bus, action engine, settings and security primitives
+├── modules/    Camera, hands, gestures, mouse, presence and visual AI
+├── platforms/  Allowlisted Windows integrations
+├── services/   Gemini, face embeddings and local face storage
+├── ui/         Desktop pages, theme and first-run wizard
+├── scripts/    Diagnostics, build and installation utilities
+├── tests/      Unit and local integration tests
+└── docs/       Module, privacy and security documentation
 ```
 
-Los módulos se comunican mediante eventos y no dependen directamente de la
-cámara. Las acciones se descubren a través del registro central, de modo que es
-posible ampliarlas sin modificar el motor.
+```mermaid
+flowchart LR
+    Camera[Camera] -->|camera.frame| Bus[EventBus]
+    Bus --> Hands[Hand tracking]
+    Bus --> Presence[Presence]
+    Bus --> Vision[Visual AI]
+    Hands -->|hand.detected| Gestures[Gesture recognition]
+    Gestures -->|gesture events| Mapper[Gesture-action mapper]
+    Mapper --> Engine[Action engine]
+    Engine --> Registry[Action registry]
+    Registry --> Windows[Allowlisted Windows controls]
+```
 
-## Privacidad
+## Privacy and safety
 
-- `data/` no se publica: puede contener perfiles faciales, imágenes y calibraciones.
-- Las claves API solo se leen desde variables de entorno.
-- El reconocimiento facial y de manos es local.
-- Gemini solo recibe una imagen cuando el usuario solicita un análisis.
+- Face images, embeddings, calibrations, logs and local settings are ignored by Git.
+- Hand, presence and face processing run locally.
+- Raw unknown faces are not saved by default.
+- App launches are allowlisted; event payloads cannot provide arbitrary paths.
+- API credentials are environment-only and redacted from errors.
 
-## Documentación
+Read the full [security policy](docs/SECURITY.md).
 
-- [Seguridad](docs/SECURITY.md)
-- [Presencia y reconocimiento facial](docs/PRESENCE_AND_FACE.md)
-- [Inteligencia visual con Gemini](docs/VISUAL_AI_GEMINI.md)
-- [Crear acciones](core/actions/README.md)
+## Project status
+
+Room OS is currently a beta-quality personal research project. Hardware behavior
+varies across webcams, lighting conditions and Windows configurations. Bug reports,
+calibration feedback and focused contributions are welcome.
+
+See the [roadmap](ROADMAP.md), [open an issue](https://github.com/diegomoren-lgtm/room-os/issues)
+or read the [contribution guide](CONTRIBUTING.md).
+
+## License
+
+Room OS is released under the [MIT License](LICENSE).

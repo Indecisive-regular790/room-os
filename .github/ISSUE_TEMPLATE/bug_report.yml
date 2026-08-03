@@ -1,0 +1,61 @@
+name: Bug report
+description: Report a reproducible Room OS problem
+title: "[Bug]: "
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not upload face images, embeddings, API keys or logs containing personal data.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open...
+        2. Enable...
+        3. Observe...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Camera
+        - Hand tracking or gestures
+        - Virtual mouse
+        - Presence or face recognition
+        - Actions or Windows integration
+        - Gemini visual AI
+        - User interface or setup
+        - Build or installation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Room OS version or commit
+      placeholder: v0.1.0 or commit hash
+    validations:
+      required: true
+  - type: input
+    id: windows
+    attributes:
+      label: Windows version
+      placeholder: Windows 11 24H2
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional non-sensitive context
+      description: Include sanitized logs only when necessary.
