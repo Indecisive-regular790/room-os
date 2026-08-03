@@ -1,0 +1,36 @@
+# Credenciales y configuracion local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+data/*
+!data/.gitkeep
+
+# Entornos y artefactos
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+build/
+dist/
+backups/
+*.log
+
+# Datos de QA y archivos generados localmente
+qa-data/
+qa-packaged-data/
+qa_*.png
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Descargas auxiliares; solo se versiona la fuente usada por la app
+assets/Inter-4.1.zip
+assets/inter-package/
+
+# Editores y sistema operativo
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
